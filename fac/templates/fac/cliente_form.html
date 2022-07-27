@@ -1,0 +1,83 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        {% if obj %}
+        <form method="POST" role="form" id="frmCliente" class="form-inline" action="{% url 'fac:cliente_edit' obj.pk %}">
+        {% else %}
+        <form method="POST" role="form" id="frmCliente" class="form-inline" action="{% url 'fac:cliente_new' %}">
+        {% endif %}
+            {% csrf_token %}
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-12 col-md-12 mb-12">
+                <!--Condicion que diferenciara a la edicion de un registro a uno nuevo-->
+                {% if obj %}
+                <div class="card border-left-warning shadow h-100 py-2">
+                    {% else %}
+                    <div class="card border-left-success shadow h-100 py-2">
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        {% if obj %} Editar {% else %} Nuevo {% endif %} Cliente
+                                        {% if t %} Desde Factura {% endif %}
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+
+                                    <div class="row">
+                                        <!-- Input oculto -->
+                                        <input type="hidden" name="id" id="id" class="form-class frmid">
+                                        {{form.as_p}}
+                                    </div>
+                                    <hr>
+                                    <div class="dropn-idivivider"> </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-success"><span
+                                                    class="fa fa-save"></span>
+                                                Guardar</button>
+                                            <button class="btn btn-danger" type="button" onclick="return cerrar_modal()">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+{% if t %}
+<script>
+    //Funcion que intercepatar el envio del formulario en caso de que la propiedad t sea diferente a none
+    $("#frmCliente").submit(function(e){
+        
+        //Instanciamiento del formulario en una variable frm
+        var frm = $("#frmCliente");
+        $.ajax({
+            //Asignacion del valor type segun la propiedad metod del formulario
+            type: frm.attr('method'),
+            //Asignacion del valor url segun la propiedad action del formulario
+            //url: frm.attr('action'),
+            url: "{{request.path}}",
+            //Serializacion de la data del formulario y asignacion a la propiedad data
+            data: frm.serialize(),
+            //En caso de que el envio es correcto, se recargar la ventana principal evitando entrar a clientes_list.html
+            success: function(data){
+                //alert(data)
+                //window.location.reload(true)
+                $("#id").val(data)
+                console.log(data)
+                cerrar_modal()
+            },
+            error: function(data,b,c){
+                alert(data);
+                console.log(c)
+            }
+        });
+        return false;
+    });
+</script>
+{% endif %}

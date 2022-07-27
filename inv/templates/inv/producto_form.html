@@ -1,0 +1,154 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        {% if obj %}
+        <form method="POST" role="form" class="form-inline" action="{% url 'inv:producto_edit' obj.pk %}" enctype="multipart/form-data">
+        {% else %}
+        <form method="POST" role="form" class="form-inline" action="{% url 'inv:producto_new' %}" enctype="multipart/form-data">
+        {% endif %}
+            {% csrf_token %}
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-12 col-md-12 mb-12">
+                <!--Condicion que diferenciara a la edicion de un registro a uno nuevo-->
+                {% if obj %}
+                <div class="card border-left-warning shadow h-100 py-2">
+                    {% else %}
+                    <div class="card border-left-success shadow h-100 py-2">
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        {% if obj %} Editar {% else %} Nuevo {% endif %} Producto
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+
+                                    <div class="row">
+                                        {#{form.as_p}#}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">{{form.codigo.label}}</div>
+                                            <div class="col-md-6">{{form.codigo}}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">{{form.codigo_barras.label}}</div>
+                                            <div class="col-md-6">{{form.codigo_barras}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">{{form.descripcion.label}}</div>
+                                            <div class="col-md-6">{{form.descripcion}}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">{{form.estado.label}}</div>
+                                            <div class="col-md-6">{{form.estado}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">{{form.precio.label}}</div>
+                                            <div class="col-md-6">{{form.precio}}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">{{form.existencia.label}}</div>
+                                            <div class="col-md-6">{{form.existencia}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">{{form.ultima_compra.label}}</div>
+                                            <div class="col-md-6">{{form.ultima_compra}}</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">{{form.marca.label}}</div>
+                                            <div class="col-md-6">{{form.marca}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">{{form.unidad_medida.label}}</div>
+                                            <div class="col-md-6">{{form.unidad_medida}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">Categoría</div>
+                                            <div class="col-md-6">
+                                                <select name="categoria" id="id_categoria" class="form-control from-control-sm">
+                                                    <option value="0">-------</option>
+                                                    {% for item in categorias %}
+                                                    <option value="{{item.id}}">{{item.descripcion}}</option>
+                                                    {% endfor%}
+                                                </select>
+                                            </div>
+                                        </div>
+            
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">Sub Categoría</div>
+                                            <div class="col-md-6">
+                                                <select name="subcategoria" id="id_subcategoria" class="form-control from-control-sm">
+                                                    <option value="0">-------</option>
+                                                    {% for item in subcategorias %}
+                                                    <option value="{{item.id}}" data-chained="{{item.categoria.id}}">{{item.descripcion}}</option>
+                                                    {% endfor%}
+                                                </select>
+                                            </div>
+                                        </div>                           
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-2">
+                                                {{form.foto.label}}
+                                            </div>
+                                            <div class="col-md-8">
+                                                {% if obj.foto %}
+                                                <!--Pintado de la imagen del prodcuto que se encuentra en la url-->
+                                                <img src="{{obj.foto.url}}" width="100%" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <!--<div class="col-md-4">{{form.foto}}</div>-->
+                                            <div class="col-md-2">
+                                                <input type="file" name="foto" id="id_foto" accept="images/">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="dropn-idivivider"> </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-success"><span
+                                                    class="fa fa-save"></span>
+                                                Guardar</button>
+                                            <!--<a href="{% url 'inv:um_list' %}" class="btn btn-danger"><span
+                                                    class="fa fa-undo"></span> Cancelar</a> -->
+                                            <button class="btn btn-danger" type="button" onclick="return cerrar_modal()">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    //Carga del DOOM
+    $(function(){
+        //Carga de la categoria y subcategoria cuando se editan los productos
+        $("#id_categoria").val("{{obj.subcategoria.categoria.id}}").change();
+        $("#id_subcategoria").val("{{obj.subcategoria.id}}").change();
+
+        //Carga del plugin jquery_chained, ligo el select de sub_categoria con el select categoria
+        $("#id_subcategoria").chained("#id_categoria");
+    });
+</script>

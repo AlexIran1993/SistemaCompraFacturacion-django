@@ -1,0 +1,142 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+<div class="card shadow mb-4">
+    <!-- Card Header - Dropdown -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Lista de Compras</h6>
+        <!--<div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Acciones:</div>
+                <a class="dropdown-item" href="{% url 'cmp:compras_new' %}"><i class="far fa-calendar-plus"></i>
+                    Nueva</a>
+                <a class="dropdown-item" href="{% url 'cmp:compras_print_all' %}" target="reportes"><i class="fas fa-print"></i>Listado</a>
+            </div>
+        </div>-->
+    </div>
+    <!-- Card Body -->
+    <div class="card-body" >
+        {% if not obj %}
+        <div class="alert alert-info">No hay compras</div>
+        {% else %}
+        <div class="buttons-toolbar">
+            <a class="btn btn-success" href="{% url 'cmp:compras_new' %}"><i  class="far fa-calendar-plus"> Nueva</i></a>
+            <a class="btn btn-warning" href="{% url 'cmp:compras_print_all' %}" target="reportes"><i class="fas fa-print"></i> Listado</a>
+        </div>
+
+        <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true"
+            data-show-toggle="true" data-show-fullscreen="true" data-toolbar=".buttons-toolbar" data-locale="es-MX">
+            <thead>
+                <th data-field="id" data-sortable="true">Id</th>
+                <th data-field="observacion" data-sortable="true">Observación</th>
+                <th data-field="no_factura" data-sortable="true">No. Factura</th>
+                <th data-field="fecha_compra" data-sortable="true">Fecha</th>
+                <th data-field="fecha_factura" data-sortable="true">F. Factura</th>
+                <th data-field="sub_total" data-sortable="true">Sub Total</th>
+                <th data-field="descuento" data-sortable="true">Descuento</th>
+                <th data-field="total" data-sortable="true">Total</th>
+                <th data-field="estado" data-sortable="true">Estado</th>
+                <th class="all">Acciones</th>
+            </thead>
+            <tbody>
+                {% for item in obj%}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{item.observacion}}</td>
+                    <td>{{ item.no_factura }}</td>
+                    <td>{{ item.fecha_compra }}</td>
+                    <td>{{ item.fecha_factura }}</td>
+                    <td>{{ item.sub_total }}</td>
+                    <td>{{ item.descuento }}</td>
+                    <td>{{ item.total }}</td>
+                    <td>{#item.estado|yesno:"Activo,Inactivo"#}
+                        <div onclick="inactivar({{item.id}})">
+                            {% if item.estado %}
+                            <i class="far fa-thumbs-up text-success" type="button"></i>
+                            {% else %}
+                            <i class="far fa-thumbs-down text-danger" type="button"></i>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        {% if item.estado %}
+                            <a class="btn btn-warning btn-circle" href="{% url 'cmp:compras_edit' item.id %}"><i
+                                    class="far fa-edit"></i></a>
+                            <a class="btn btn-success btn-circle" href="{% url 'cmp:compra_print_one' item.id %}" target="reportes"><i class="fas fa-print"></i></a>
+                        {% else %}
+                            <button class="btn btn-danger btn-circle" id="btnSelect">
+                                <i class="fas fa-ban"></i>
+                            </button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+{% block js_page %}
+<script>
+    // Call the dataTables jQuery plugin
+    /*$(document).ready(function () {
+        $('.table').DataTable({
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "<span class='fa fa-angle-double-left'></span>",
+                    "sLast": "<span class='fa fa-angle-double-right'></span>",
+                    "sNext": "<span class='fa fa-angle-right'></span>",
+                    "sPrevious": "<span class='fa fa-angle-left'></span>"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+        });
+    });*/
+    
+    function inactivar(id){
+        var data = {id:id};
+        data = JSON.stringify(data)
+        var token = '{{csrf_token}}';
+
+        $.ajax({
+            headers: {"X-CSRFToken": token},
+            type: "POST",
+            url: "/cmp/compras/inactivar/"+id,
+            data:data,
+            success: function(response){
+                if(response==="OK"){
+                    
+                    location.reload(true);
+                }else{
+                    mensaje("Error Intentando Cambiar El Estado De La Compra")
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrow){
+                console.log(textStatus, errorThrow);
+                mensaje(errorThrow,'red');
+                cerrar_modal();
+            }
+        });
+    }
+</script>
+{% endblock %}

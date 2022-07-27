@@ -1,0 +1,123 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+    <!-- Card Header - Dropdown -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">listado de Clientes</h6>
+        <!--<div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Acciones</div>
+                <a class="dropdown-item" href="#" onclick="return abrir_modal('{% url 'fac:cliente_new' %}')"><i class="far fa-calendar-plus"></i> Nueva</a>
+            </div>
+        </div>-->
+    </div>
+    <!-- Card Body -->
+    <div class="card-body" >
+        {% if not obj%}
+            <div class="alert alert-info">No Hay Clientes</div>
+        {% else %}
+        <!-- Toolbar -->
+        <div class="buttons-toolbar">
+            <a class="btn btn-success" href="#" onclick="return abrir_modal('{% url 'fac:cliente_new' %}')"><i class="far fa-calendar-plus"></i> Nueva</a>
+        </div>
+
+        <table 
+        id="table" 
+        data-toggle="table" 
+        data-pagination="true" 
+        data-search="true" 
+        data-show-columns = "true"
+        data-show-toggle = "true"
+        data-show-fullscreen = "true"
+        data-toolbar = ".buttons-toolbar"
+        data-locale="es-MX"
+        >
+            <thead>
+                <th data-field = "id" data-sortable = "true">Id</th>
+                <th data-field = "nombres" data-sortable = "true">Nombres</th>
+                <th data-field = "apellidos" data-sortable = "true">Apellidos</th>
+                <th data-field = "tipo" data-sortable = "true">Tipo</th>
+                <th data-field = "telefono">Telefono</th>
+                <th data-field = "estado">Estado</th>
+                <th class="all">Acciones</th>
+            </thead>
+            <tbody>
+                {% for item in obj %}
+                    <tr>
+                        <td>{{item.id}}</td>
+                        <td>{{item.nombre}}</td>
+                        <td>{{item.apellido}}</td>
+                        <td>{{item.tipo}}</td>
+                        <td>{{item.celular}}</td>
+                        <td>{#item.estado|yesno:"Activo,Inactivo"#}
+                            <div onclick="inactivar({{item.id}})">
+                                {% if item.estado%}
+                                <i class="far fa-thumbs-up text-primary" type="button"></i>
+                                {% else %}
+                                <i class="far fa-thumbs-down text-danger" type="button"></i>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning btn-circle" onclick="return abrir_modal('{% url 'fac:cliente_edit' item.id %}')"><i class="far fa-edit"></i></button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block js_page %}
+<script>
+    //Funcion que cambiara el valor de la pripiedad estado usando JavaScripts
+    function inactivar(id){
+        //Se crea un objeto con una propiedad id almacenando el valor id del parametro
+        var data = {id:id};
+        //Convierto el objeto Json a String
+        data = JSON.stringify(data);
+        //Creacion del valor con el token de seguridad
+        var token = '{{csrf_token}}';
+
+        //Comprobacion de que el parametro id y la recoleccion del token funcionan correctamente
+        //alert(token);
+        //alert(id);
+        //return false;
+
+        //Metodo ajax que creara el request para la inactivacion del estado
+        $.ajax({
+            headers : {"X-CSRFToken": token},
+            type: "POST",
+            //Url que ejecutara la vista cliente_inactivar mas el id del cliente
+            url: "/fac/clientes/estado/"+id,
+            data: data,
+            success: function(response){
+                if(response ==="OK"){
+                    location.reload(true)
+                }
+                else{
+                    mensaje("Error Intentando Cambiar Estado a Cliente")
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrow){
+                console.log(textStatus, errorThrow);
+                mensaje(errorThrow, 'red');
+                cerrar_modal();
+            }
+
+        });
+    }
+
+    // Call the dataTables jQuery plugin
+   // $(document).ready(function () {
+   //     $('.table').DataTable();
+   // });
+</script>
+{% endblock %}

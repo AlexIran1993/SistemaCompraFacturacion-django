@@ -1,0 +1,80 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        {% if obj %}
+        <form method="POST" role="form" class="form-inline" action="{% url 'cmp:proveedor_edit' obj.pk %}">
+        {% else %}
+        <form method="POST" role="form" class="form-inline" action="{% url 'cmp:proveedor_new' %}">
+        {% endif %}
+            {% csrf_token %}
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-12 col-md-12 mb-12">
+                <!--Condicion que diferenciara a la edicion de un registro a uno nuevo-->
+                {% if obj %}
+                <div class="card border-left-warning shadow h-100 py-2">
+                    {% else %}
+                    <div class="card border-left-success shadow h-100 py-2">
+                        {% endif %}
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        {% if obj %} Editar {% else %} Nueva {% endif %} Proveedor
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+
+                                    <div class="row">
+                                        {{form.as_p}}
+                                    </div>
+                                    <hr>
+                                    <div class="dropn-idivivider"> </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-success"><span
+                                                    class="fa fa-save"></span>
+                                                Guardar</button>
+                                            <!--<a href="{% url 'inv:um_list' %}" class="btn btn-danger"><span
+                                                    class="fa fa-undo"></span> Cancelar</a> -->
+                                            <button class="btn btn-danger" type="button" onclick="return cerrar_modal()">
+                                                Cancelar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(function() {
+    
+        var url = $("form").attr("action");
+        var token = jQuery("[name=csrfmiddlewaretoken]").val();
+    
+        $("form").submit(function(e){
+            e.preventDefault();
+            // alert(token);
+            var formData = $("form").serializeArray();
+            // console.log(formData);
+            $.ajax({
+                url:url,
+                method:"POST",
+                headers: {'X-CSRFToken': token },
+                data: formData
+            })
+            .done(function(r,textStatus,xhr){
+                if(xhr.status=200){
+                    location.reload(true);
+                }
+                else{
+                    mensaje(textStatus);
+                }
+            }).fail(function (error) {
+                    mensaje(error.responseText);
+            });
+        });
+    });
+    </script>

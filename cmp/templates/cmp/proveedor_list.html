@@ -1,0 +1,99 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+<!-- Dropdown Card Example -->
+<div class="card shadow mb-4">
+    <!-- Card Header - Dropdown -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">listado de Proveedor</h6>
+        <!--<div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">Acciones</div>
+                <a class="dropdown-item" onclick= "return abrir_modal('{% url 'cmp:proveedor_new'%}')" href="#">
+                    <i class="far fa-calendar-plus"></i> Nueva</a>
+            </div>
+        </div>-->
+    </div>
+    <!-- Card Body -->
+    <div class="card-body" >
+        {% if not obj%}
+            <div class="alert alert-info">No Hay Una Lista de Proveedores</div>
+        {% else %}
+        <div class="buttons-toolbar">
+            <a class="btn btn-success" href="#" onclick="return abrir_modal('{% url 'cmp:proveedor_new'%}')"><i class="far fa-calendar-plus"></i> Nueva</a>
+        </div>
+        <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true"
+            data-show-toggle="true" data-show-fullscreen="true" data-toolbar=".buttons-toolbar" data-locale="es-MX">
+            <thead>
+                <th data-field="id" data-sortable="true">Id</th>
+                <th data-field="descripcion" data-sortable="true">Descripcion</th>
+                <th data-field="direccion" data-sortable="true">Direccion</th>
+                <th data-field="contacto" data-sortable="true">Contacto</th>
+                <th data-field="telefono" data-sortable="true">Telefono</th>
+                <th data-field="email" data-sortable="true">Email</th>
+                <th data-field="estado" data-sortable="true">Estado</th>
+                <th class="all">Acciones</th>
+            </thead>
+            <tbody>
+                {% for item in obj %}
+                    <tr>
+                        <td>{{item.id}}</td>
+                        <td>{{item.descripcion}}</td>
+                        <td>{{item.direccion}}</td>
+                        <td>{{item.contacto}}</td>
+                        <td>{{item.telefono}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{#item.estado|yesno:"Activo,Inactivo"#}
+                            <div onclick="inactivar({{item.id}})">
+                                {% if item.estado %}
+                                    <i class="far fa-thumbs-up text-success" type="button"></i>
+                                {% else %}
+                                <i class="far fa-thumbs-down text-danger" type="button"></i>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning btn-circle" onclick= "return abrir_modal('{% url 'cmp:proveedor_edit' item.id %}')"><i class="far fa-edit"></i></button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block js_page %}
+<script>
+    function inactivar(id){
+        var data = {id:id};
+        data = JSON.stringify(data)
+        var token = '{{csrf_token}}';
+
+        $.ajax({
+            headers: {"X-CSRFToken": token},
+            type: "POST",
+            url: "/cmp/proveedor/inactivar/"+id,
+            data:data,
+            success: function(response){
+                if(response==="OK"){
+                    
+                    location.reload(true);
+                }else{
+                    mensaje("Error Intentando Cambiar El Estado De La Categoria")
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrow){
+                console.log(textStatus, errorThrow);
+                mensaje(errorThrow,'red');
+                cerrar_modal();
+            }
+        });
+    }
+</script>
+{% endblock %}
