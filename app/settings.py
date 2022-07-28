@@ -23,16 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-dsh8^3qe*d8#ie!7#*8559(^s)t5an+3mji(l74^nkj!!v4mh*'
+#Llave de seguridad guardada desde .env
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True
+DEBUG = False
 
 #Listado de url que se levantara en el servidor cuando DEBUG sea False
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1",".herokuapp.com"]
 
 
 # Registros de aplicaciones que integran el proyecto
