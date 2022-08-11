@@ -6,7 +6,7 @@
     <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Listado de Sub Categoarias</h6>
-        <!--<div class="dropdown no-arrow">
+        <div class="dropdown no-arrow">
             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -15,16 +15,16 @@
                 <div class="dropdown-header">Acciones</div>
                 <a class="dropdown-item" href="{% url 'inv:subcategoria_new' %}"><i class="far fa-calendar-plus"></i> Nueva</a>
             </div>
-        </div>-->
+        </div>
     </div>
     <!-- Card Body -->
     <div class="card-body" >
-        {% if not obj%}
-            <div class="alert alert-info">No Hay Sub categorias</div>
-        {% else %}
         <div class="buttons-toolbar">
             <a class="btn btn-success" href="#" onclick="return abrir_modal('{% url 'inv:subcategoria_new' %}')"><i class="far fa-calendar-plus"></i> Nueva</a>
         </div>
+        {% if not obj%}
+            <div class="alert alert-info">No Hay Sub categorias</div>
+        {% else %}
         <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true"
             data-show-toggle="true" data-show-fullscreen="true" data-toolbar=".buttons-toolbar" data-locale="es-MX">
             <thead>

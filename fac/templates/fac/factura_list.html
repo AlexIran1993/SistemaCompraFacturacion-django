@@ -8,6 +8,14 @@
     </div>
     <!-- Card Body -->
     <div class="card-body">
+        <div class="buttons-toolbar">
+            <a class="btn btn-success" href="{% url 'fac:facturas_new' %}"><i class="far fa-calendar-plus"></i> Nuevo</a>
+        </div>
+        
+        {% if not obj%}
+        <div class="alert alert-info">No Hay Facturas</div>
+        {% else %}
+        <!-- Toolbar -->
         <div class="row">
             <div class="col-md-4">
                 <input type="text" class="form-class" name="f1" id="f1" readonly>
@@ -21,13 +29,6 @@
         </div>
 
 
-        {% if not obj%}
-        <div class="alert alert-info">No Hay Facturas</div>
-        {% endif %}
-        <!-- Toolbar -->
-        <div class="buttons-toolbar">
-            <a class="btn btn-success" href="{% url 'fac:facturas_new' %}"><i class="far fa-calendar-plus"></i> Nuevo</a>
-        </div>
         <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true"
             data-show-toggle="true" data-show-fullscreen="true" data-toolbar=".buttons-toolbar" data-locale="es-MX">
             <thead>
@@ -53,6 +54,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

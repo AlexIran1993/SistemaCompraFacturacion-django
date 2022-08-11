@@ -32,6 +32,7 @@ DEBUG = False
 
 #Listado de url que se levantara en el servidor cuando DEBUG sea False
 ALLOWED_HOSTS = ["127.0.0.1",".herokuapp.com"]
+#ALLOWED_HOSTS = []
 
 
 # Registros de aplicaciones que integran el proyecto
@@ -101,7 +102,7 @@ DATABASES = {
         'NAME': 'db_djfull',
         'HOST': 'localhost',
         'USER': 'debs',
-        'PASSWORD': '1234',
+        'PASSWORD': '123456',
         'PORT': 5432
     }
 }

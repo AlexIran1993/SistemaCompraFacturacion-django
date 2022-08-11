@@ -20,12 +20,12 @@
     </div>
     <!-- Card Body -->
     <div class="card-body" >
-        {% if not obj%}
-            <div class="alert alert-info">No Hay Una Lista de Proveedores</div>
-        {% else %}
         <div class="buttons-toolbar">
             <a class="btn btn-success" href="#" onclick="return abrir_modal('{% url 'cmp:proveedor_new'%}')"><i class="far fa-calendar-plus"></i> Nueva</a>
         </div>
+        {% if not obj%}
+            <div class="alert alert-info">No Hay Una Lista de Proveedores</div>
+        {% else %}
         <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true"
             data-show-toggle="true" data-show-fullscreen="true" data-toolbar=".buttons-toolbar" data-locale="es-MX">
             <thead>

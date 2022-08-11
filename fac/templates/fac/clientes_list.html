@@ -18,14 +18,13 @@
     </div>
     <!-- Card Body -->
     <div class="card-body" >
+        <div class="buttons-toolbar">
+            <a class="btn btn-success" href="#" onclick="return abrir_modal('{% url 'fac:cliente_new' %}')"><i class="far fa-calendar-plus"></i> Nueva</a>
+        </div>
         {% if not obj%}
             <div class="alert alert-info">No Hay Clientes</div>
         {% else %}
         <!-- Toolbar -->
-        <div class="buttons-toolbar">
-            <a class="btn btn-success" href="#" onclick="return abrir_modal('{% url 'fac:cliente_new' %}')"><i class="far fa-calendar-plus"></i> Nueva</a>
-        </div>
-
         <table 
         id="table" 
         data-toggle="table" 
