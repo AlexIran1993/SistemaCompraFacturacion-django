@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'rest_framework',
     #Registro de la aplicacion api
     'api',
+    'admin_honeypot',
 ]
 
 MIDDLEWARE = [

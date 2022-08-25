@@ -20,7 +20,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     #Direccion para el acceso a administraccion de Django
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('secureloginfac/', admin.site.urls),
     #Path para el acceso a el archivo urls.py de la aplicacion bases
     path('', include(('bases.urls', 'bases'), namespace='bases')),
     #Path para el acceso a el archivo urls.py de la aplicacion inv
