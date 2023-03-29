@@ -3,7 +3,6 @@
 <html lang="es">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,19 +13,23 @@
 
     <!-- Custom fonts for this template-->
     <link href="{% static 'base/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="{% static 'base/css/sb-admin-2.min.css' %}" rel="stylesheet">
-    
+
     <!-- Custom styles for this page -->
     <link href="{% static 'base/vendor/datatables/dataTables.bootstrap4.min.css'%}" rel="stylesheet">
 
     <!-- jQuery Confirm -->
     <link rel="stylesheet" href="{% static 'base/vendor/jquery_confirm/jquery-confirm.min.css' %}">
 
-    <!-- XDSoft DateTimePicker -->  
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />  
+    <!-- XDSoft DateTimePicker -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+        integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
 
     <!-- Libreria de Bootstrap table-->
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.20.0/dist/bootstrap-table.min.css">
@@ -34,10 +37,10 @@
     <!-- Select2-->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    </head>
+</head>
 
 <body id="page-top" class='bg-gradient-primary'>
-        {% block side_bar %}
+    {% block side_bar %}
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
@@ -75,39 +78,48 @@
             {% url 'fac:clientes_list' as clie_list%}
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item {% if cat_url in request.path or s_cat_url in request.path or marc_list in request.path or um_list in request.path or prod_list in request.path or prov_list in request.path or clie_list in request.path%} active {% endif %} ">
+            <li
+                class="nav-item {% if cat_url in request.path or s_cat_url in request.path or marc_list in request.path or um_list in request.path or prod_list in request.path or prov_list in request.path or clie_list in request.path%} active {% endif %} ">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Catalagos</span>
                 </a>
-                <div id="collapseTwo" 
-                    class="collapse {% if cat_url in request.path or prov_list in request.path or clie_list in request.path or s_cat_url in request.path or marc_list in request.path or um_list in request.path or prod_list in request.path%} show {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo"
+                    class="collapse {% if cat_url in request.path or prov_list in request.path or clie_list in request.path or s_cat_url in request.path or marc_list in request.path or um_list in request.path or prod_list in request.path%} show {% endif %}"
+                    aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Catalogos de inventario</h6>
                         <!--Validacion de los permisos de cada usuario -->
                         {% if perms.inv.view_categoria %}
-                            <a class="collapse-item {% if cat_url in request.path%} active {% endif %}" href="{{cat_url}}">Categorias</a>
+                        <a class="collapse-item {% if cat_url in request.path%} active {% endif %}"
+                            href="{{cat_url}}">Categorias</a>
                         {% endif %}
                         {% if perms.inv.view_subcategoria %}
-                            <a class="collapse-item {% if s_cat_url in request.path%} active {% endif %}" href="{{s_cat_url}}">sub Categoria</a>
+                        <a class="collapse-item {% if s_cat_url in request.path%} active {% endif %}"
+                            href="{{s_cat_url}}">sub Categoria</a>
                         {% endif%}
                         {% if perms.inv.view_marca %}
-                            <a class="collapse-item  {% if marc_list in request.path%} active {% endif %}" href="{{marc_list}}">Marcas</a>
+                        <a class="collapse-item  {% if marc_list in request.path%} active {% endif %}"
+                            href="{{marc_list}}">Marcas</a>
                         {% endif %}
                         {% if perms.inv.view_unidadmedida %}
-                            <a class="collapse-item {% if um_list in request.path%} active {% endif %}" href="{{um_list}}">Unidad de Medida</a>
+                        <a class="collapse-item {% if um_list in request.path%} active {% endif %}"
+                            href="{{um_list}}">Unidad de Medida</a>
                         {% endif %}
                         {% if perms.inv.view_producto %}
-                            <a class="collapse-item {% if prod_list in request.path%} active {% endif %}" href="{{prod_list}}">Productos</a>
+                        <a class="collapse-item {% if prod_list in request.path%} active {% endif %}"
+                            href="{{prod_list}}">Productos</a>
                         {% endif %}
                         <h6 class="collapse-header">Catalogo de Compras</h6>
                         {% if perms.cmp.view_proveedor %}
-                            <a class="collapse-item {% if prov_list in request.path%} active {% endif %}" href="{{prov_list}}">Provedores</a>
+                        <a class="collapse-item {% if prov_list in request.path%} active {% endif %}"
+                            href="{{prov_list}}">Provedores</a>
                         {% endif %}
                         <h6 class="collapse-header">Catalogos de Facturacion</h6>
                         {% if perms.fac.view_cliente %}
-                            <a class="collapse-item {% if clie_list in request.path%} active {% endif %}" href="{{clie_list}}">Clientes</a>
+                        <a class="collapse-item {% if clie_list in request.path%} active {% endif %}"
+                            href="{{clie_list}}">Clientes</a>
                         {% endif %}
 
                         <a href="{% url 'bases:idiomas' %}" class="collapse-item">Idiomas</a>
@@ -118,21 +130,26 @@
             </li>
 
             <!--Variables para las urls de Movimientos-->
-            {% url 'cmp:compras_list'  as com_list %}
-            {% url 'fac:factura_list'  as fac_list %}
+            {% url 'cmp:compras_list' as com_list %}
+            {% url 'fac:factura_list' as fac_list %}
 
             <li class="nav-item {% if com_list in request.path or fac_list in request.path%} active {% endif %}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCompras" aria-expanded="true" aria-controls="collapseCompras">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCompras"
+                    aria-expanded="true" aria-controls="collapseCompras">
                     <i class="fas fa-fw fa-truck"></i>
                     <span>Movimientos</span>
                 </a>
-                <div id="collapseCompras" class="collapse {% if com_list in request.path or fac_list in request.path %} show {% endif %}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseCompras"
+                    class="collapse {% if com_list in request.path or fac_list in request.path %} show {% endif %}"
+                    aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Entradas</h6>
-                        <a class="collapse-item {% if com_list in request.path%} active {% endif %}" href="{{com_list}}">Compras</a>
+                        <a class="collapse-item {% if com_list in request.path%} active {% endif %}"
+                            href="{{com_list}}">Compras</a>
 
                         <h6 class="collapse-header">Salidas</h6>
-                        <a class="collapse-item {% if fac_list in request.path %} active {% endif %}" href="{{fac_list}}">Facturas</a>
+                        <a class="collapse-item {% if fac_list in request.path %} active {% endif %}"
+                            href="{{fac_list}}">Facturas</a>
                     </div>
                 </div>
             </li>
@@ -327,7 +344,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
-                            <!-- <span class="badge badge-danger badge-counter">7</span>
+                        <!-- <span class="badge badge-danger badge-counter">7</span>
                             </a> 
                             <!-- Dropdown - Messages
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -394,8 +411,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ user.username }}</span>
-                                <img class="img-profile rounded-circle"
-                                    src="{% static 'base/img/user.png'%}">
+                                <img class="img-profile rounded-circle" src="{% static 'base/img/user.png'%}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -437,26 +453,27 @@
                 <!-- /.container-fluid -->
                 {% endblock page_content %}
 
-            {% block footer %}
-            </div>
-            <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+
+    {% block login%} {% endblock %}
+    {% block footer %}
+    </div>
+    <!-- End of Main Content -->
+    
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; Your Website 2020</span>
+            </div>
         </div>
-        <!-- End of Content Wrapper -->
+    </footer>
+    <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
     </div>
     <!-- End of Page Wrapper -->
     {% endblock footer %}
-
-    {% block login%} {% endblock %}
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
@@ -468,12 +485,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Cerrar Session para <mark>Usuario</mark> ?</mark></h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Cerrar Session para <mark>Usuario</mark> ?</mark>
+                    </h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Al dar click en el boton Salir, cerrará la sessión para <mark>usuario</mark></mark></div>
+                <div class="modal-body">Al dar click en el boton Salir, cerrará la sessión para
+                    <mark>usuario</mark></mark></div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href="{% url 'bases:logout' %}">Salir</a>
@@ -501,7 +520,8 @@
 
     <script src="{% static 'base/vendor/jquery_confirm/jquery-confirm.min.js' %}"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+        integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
 
     <!-- Script de la libreria Bootstrap Table -->
     <script src="https://unpkg.com/bootstrap-table@1.20.0/dist/bootstrap-table.min.js"></script>
@@ -522,51 +542,52 @@
 
     <!--Bloque con codigo javascript que controlara el modal-->
     {% block control_modal %}
-        <script>
-            function abrir_modal(url){
-                $("#popup").load(url, function(){
-                    $(this).modal({
-                        backdrop: 'static',
-                        keyboard: false
-                    })
-                    $(this).modal('show');
-                });
-                return false;
+    <script>
+        function abrir_modal(url) {
+            $("#popup").load(url, function () {
+                $(this).modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+                $(this).modal('show');
+            });
+            return false;
+        }
+
+        function cerrar_modal() {
+            $('#popup').modal('hide');
+            return false;
+        }
+
+        function mensaje(msg, color = 'green') {
+
+            //Valido el color que repreentara al mensaje
+            if (color == "success") {
+                color = "green"
+            }
+            if (color == "error") {
+                color = "red"
             }
 
-            function cerrar_modal(){
-                $('#popup').modal('hide');
-                return false;
-            }
-
-            function mensaje(msg, color = 'green'){
-
-                //Valido el color que repreentara al mensaje
-                if(color == "success"){
-                    color = "green"
-                }
-                if(color == "error"){
-                    color = "red"
-                }
-
-                //Creacion del mensaje con los atrubustos necesarios
-                $.alert({
-                    title: '',
-                    theme: 'material',
-                    type: color,
-                    content: msg
-                });
-            }
-            //Valido que el request tenga un messages en su interior
-            {% if messages %}
-                {% for message in messages %}
-                    mensaje("{{ message }}", "{{message.tags}}");
-                {% endfor %}
-            {% endif %}
-        </script>
+            //Creacion del mensaje con los atrubustos necesarios
+            $.alert({
+                title: '',
+                theme: 'material',
+                type: color,
+                content: msg
+            });
+        }
+        //Valido que el request tenga un messages en su interior
+        {% if messages %}
+        {% for message in messages %}
+        mensaje("{{ message }}", "{{message.tags}}");
+        {% endfor %}
+        {% endif %}
+    </script>
     {% endblock %}
 
     {% block js_page %} {% endblock js_page %}
 
 </body>
+
 </html>

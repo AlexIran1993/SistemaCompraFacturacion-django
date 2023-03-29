@@ -1,7 +1,5 @@
-from operator import inv
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from platformdirs import user_cache_dir
 from .models import Cliente, FacturaDet, FacturaEnc
 from bases.views import SinPrivilegios
 from django.views import generic

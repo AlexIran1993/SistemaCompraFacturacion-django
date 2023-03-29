@@ -31,7 +31,7 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = False
 
 #Listado de url que se levantara en el servidor cuando DEBUG sea False
-ALLOWED_HOSTS = ["127.0.0.1",".herokuapp.com"]
+ALLOWED_HOSTS = ["localhost","127.0.0.1",".herokuapp.com"]
 #ALLOWED_HOSTS = []
 
 
